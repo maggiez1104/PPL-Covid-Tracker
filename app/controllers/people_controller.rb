@@ -72,10 +72,10 @@ class PeopleController < ApplicationController
       contact_first_name = params[:contact_first_name]
       contact_last_name = params[:contact_last_name]
       contact_date = params[:contact_date]
-  
+
       # Query the database to find the person based on the name
       @contact_person = Person.where(first_name: contact_first_name, last_name: contact_last_name)
-  
+
       if @contact_person
 
       else

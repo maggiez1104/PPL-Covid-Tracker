@@ -1,4 +1,11 @@
 <%= form_tag(@people, method: :get) do %>
+
+  <%= label_tag :first_name, "Your First Name:" %>
+  <%= text_field_tag :first_name %>
+
+  <%= label_tag :last_name, "Your Last Name:" %>
+  <%= text_field_tag :last_name %>
+
   <%= label_tag :contact_name, "Contact First Name:" %>
   <%= text_field_tag :contact_first_name %>
 
