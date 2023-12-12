@@ -27,6 +27,11 @@
   </div>
 
   <div>
+    <%= form.label :days_sick, style: "display: block" %>
+    <%= form.select :number_selection, (1..10).to_a.map { |num| [num, num] }, {}, { class: 'form-control' } %>
+  </div>
+
+  <div>
     <%= form.label :date_logged, style: "display: block" %>
     <%= form.date_field :date_logged %>
   </div>

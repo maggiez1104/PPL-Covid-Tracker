@@ -1,0 +1,12 @@
+<%= form_tag(@people, method: :get) do %>
+  <%= label_tag :contact_name, "Contact First Name:" %>
+  <%= text_field_tag :contact_first_name %>
+
+  <%= label_tag :contact_name, "Contact Last Name:" %>
+  <%= text_field_tag :contact_last_name %>
+
+  <%= label_tag :contact_date, "Date of Contact:" %>
+  <%= date_field_tag :contact_date %>
+
+  <%= submit_tag "Search" %>
+<% end %>

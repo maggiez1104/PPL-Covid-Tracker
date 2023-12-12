@@ -1,9 +1,5 @@
-<h1>Articles</h1>
-
+<h1>Welcome to the Home Page</h1>
 <ul>
-  <% @articles.each do |article| %>
-    <li>
-      <%= link_to article.title, article %>
-    </li>
-  <% end %>
+  <li><%= link_to 'Create a New Person', 'people#index' %></li>
+  <li><%= link_to 'Calculate Your Risk', "calculator#index" %></li>
 </ul>

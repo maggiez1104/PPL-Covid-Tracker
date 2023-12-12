@@ -65,6 +65,23 @@ class PeopleController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def person_params
-      params.require(:person).permit(:first_name, :last_name, :sick, :date_exposed, :date_logged)
+      params.require(:person).permit(:first_name, :last_name, :sick, :days_sick, :date_logged)
+    end
+
+    def search
+      contact_first_name = params[:contact_first_name]
+      contact_last_name = params[:contact_last_name]
+      contact_date = params[:contact_date]
+  
+      # Query the database to find the person based on the name
+      @contact_person = Person.where(first_name: contact_first_name, last_name: contact_last_name)
+  
+      if @contact_person
+
+      else
+        # Handle when the person is not found
+        flash[:alert] = "Person not found."
+        redirect_to root_path
+      end
     end
 end
