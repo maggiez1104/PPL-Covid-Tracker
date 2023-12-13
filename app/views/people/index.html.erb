@@ -3,6 +3,11 @@
 <h1>People</h1>
 
 <div id="people">
+  <%= @search_result[0] %>
+  <p>"Did risk show up?"</p>
+
+
+
   <% @people.each do |person| %>
     <%= render person %>
     <p>
