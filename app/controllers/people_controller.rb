@@ -58,6 +58,61 @@ class PeopleController < ApplicationController
     end
   end
 
+  def search
+    puts "----- In Search ------"
+    first_name = params[:first_name]
+    last_name = params[:last_name]
+    contact_first_name = params[:contact_first_name]
+    contact_last_name = params[:contact_last_name]
+    contact_date = params[:contact_date]
+
+    # sql query into people db to get person info
+    # get person's date_logged and days_sick
+
+    # select date_logged, days_sick from people where first_name = first_name;
+
+    @date_logged = ActiveRecord::Base.connection.execute("SELECT date_logged FROM people WHERE first_name = '#{first_name}'")
+
+    @days_sick = ActiveRecord::Base.connection.execute("SELECT days_sick FROM people WHERE first_name = '#{first_name}'")
+
+    # Do calculation: (date_logged - days_sick) + (contact_date - date_logged)
+      # edge case: what if date_logged - days_sick is in a different month
+
+    #TODO: figure out how to subtract days from date object
+
+    #total_days_sick = (@date_logged - @days_sick) + (contact_date - @date_logged)
+    # testing
+    total_days_sick = 3
+
+    # If statements:
+
+    if total_days_sick > 7 then
+      risk = "Low"
+    elsif (total_days_sick <= 7) and (total_days_sick >= 3) then
+      risk = "Medium"
+    elsif total_days_sick < 3 then
+      risk = "High"
+    end
+
+    # Put risk result (low, med, high) into Risk db.
+
+    map = {"first_name" => first_name, "last_name" => last_name, \
+    "risk" => risk} # or risk?
+
+    newRow = Risk.new(map)
+
+    respond_to do |format|
+      if newRow.save
+        puts "Success!"
+        #format.html{redirect_to "articles#index"}
+        format.html{redirect_to "/people#index"}
+      else
+        format.html{redirect_to "/"} # Can create error page
+      end
+    end
+    # display on home page: Your risk level is: (get Risk db risk var)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_person
@@ -70,62 +125,6 @@ class PeopleController < ApplicationController
     end
 
     def search_form
-    end
-
-    def search
-      # will the above person_params func be an issue here
-      puts "----- In Search ------"
-      first_name = params[:first_name]
-      last_name = params[:last_name]
-      contact_first_name = params[:contact_first_name]
-      contact_last_name = params[:contact_last_name]
-      contact_date = params[:contact_date]
-
-      # sql query into people db to get person info
-      # get person's date_logged and days_sick
-
-      # select date_logged, days_sick from people where first_name = first_name;
-
-      @date_logged = ActiveRecord::Base.connection.execute("SELECT date_logged FROM people WHERE first_name = #{first_name}")
-
-      @days_sick = ActiveRecord::Base.connection.execute("SELECT days_sick FROM people WHERE first_name = #{first_name}")
-
-      # Do calculation: (date_logged - days_sick) + (contact_date - date_logged)
-        # edge case: what if date_logged - days_sick is in a different month
-
-      #TODO: figure out how to subtract days from date object
-
-      #total_days_sick = (@date_logged - @days_sick) + (contact_date - @date_logged)
-      # testing
-      total_days_sick = 3
-
-      # If statements:
-
-      if total_days_sick > 7 then
-        risk = "Low"
-      elsif (total_days_sick <= 7) and (total_days_sick >= 3) then
-        risk = "Medium"
-      elsif total_days_sick < 3 then
-        risk = "High"
-      end
-
-      # Put risk result (low, med, high) into Risk db.
-
-      map = {"first_name" => first_name, "last_name" => last_name, \
-      "risk" => risk} # or risk?
-
-      newRow = Risk.new(map)
-
-      respond_to do |format|
-        if newRow.save
-          puts "Success!"
-          #format.html{redirect_to "articles#index"}
-          format.html{redirect_to "people#index"}
-        else
-          format.html{redirect_to "/"} # Can create error page
-        end
-      end
-      # display on home page: Your risk level is: (get Risk db risk var)
     end
 
 
