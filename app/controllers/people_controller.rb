@@ -72,14 +72,12 @@ class PeopleController < ApplicationController
     contact_date = params[:contact_date]
 
     # sql query into people db to get person info
-    # get person's date_logged and days_sick
-
-    # select date_logged, days_sick from people where first_name = first_name;
+    # get contacts's date_logged and days_sick
 
     @date_logged = ActiveRecord::Base.connection.execute("SELECT date_logged FROM people WHERE first_name = '#{contact_first_name}'")
 
     @days_sick = ActiveRecord::Base.connection.execute("SELECT days_sick FROM people WHERE first_name = '#{contact_first_name}'")
-    puts "-------- here is days logged and sick --------"
+    puts "-------- here is date logged and sick --------"
     puts @date_logged[0]["date_logged"]
     puts @days_sick[0]["days_sick"]
     # Do calculation: days_sick + (contact_date - date_logged)
@@ -87,11 +85,20 @@ class PeopleController < ApplicationController
 
     #TODO: figure out how to subtract days from date object
 
-
     date_logged_obj = Date.parse(@date_logged[0]["date_logged"])
     contact_date_obj = Date.parse(contact_date)
 
-    diff = (date_logged_obj - contact_date_obj).to_i
+    puts "----- here is date objs after parse --------"
+    puts date_logged_obj
+    puts contact_date_obj
+
+    #diff = (date_logged_obj - contact_date_obj).to_i
+
+    diff = (contact_date_obj - date_logged_obj).to_i
+
+    puts "----- here is diff #{diff} ------"
+
+    puts "------ here is days sick as int #{@days_sick[0]["days_sick"].to_i} --------"
 
     total_days_sick = @days_sick[0]["days_sick"].to_i + diff
 
