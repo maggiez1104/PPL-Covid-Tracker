@@ -3,8 +3,10 @@
 <h1>People</h1>
 
 <div id="people">
-  <%= @search_result[0].risk %>
-  <p>Did risk show up?</p>
+
+  <!--<p>Here is your estimated risk of contracting Covid:</p>-->
+
+  <!--<%= @search_result[0].risk %>-->
 
   <% @people.each do |person| %>
     <%= render person %>
