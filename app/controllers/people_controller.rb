@@ -1,3 +1,4 @@
+require 'date'
 class PeopleController < ApplicationController
   before_action :set_person, only: %i[ show edit update destroy ]
 
@@ -5,6 +6,10 @@ class PeopleController < ApplicationController
   def index
     @people = Person.all
     @search_result = Risk.all
+
+    puts "---- here is index method search result ------"
+
+    puts @search_result
   end
 
   # GET /people/1 or /people/1.json
@@ -71,18 +76,31 @@ class PeopleController < ApplicationController
 
     # select date_logged, days_sick from people where first_name = first_name;
 
-    @date_logged = ActiveRecord::Base.connection.execute("SELECT date_logged FROM people WHERE first_name = '#{first_name}'")
+    @date_logged = ActiveRecord::Base.connection.execute("SELECT date_logged FROM people WHERE first_name = '#{contact_first_name}'")
 
-    @days_sick = ActiveRecord::Base.connection.execute("SELECT days_sick FROM people WHERE first_name = '#{first_name}'")
-
-    # Do calculation: (date_logged - days_sick) + (contact_date - date_logged)
-      # edge case: what if date_logged - days_sick is in a different month
+    @days_sick = ActiveRecord::Base.connection.execute("SELECT days_sick FROM people WHERE first_name = '#{contact_first_name}'")
+    puts "-------- here is days logged and sick --------"
+    puts @date_logged[0]["date_logged"]
+    puts @days_sick[0]["days_sick"]
+    # Do calculation: days_sick + (contact_date - date_logged)
+      # edge case: what if contact_date - date_logged is in a different month
 
     #TODO: figure out how to subtract days from date object
 
-    #total_days_sick = (@date_logged - @days_sick) + (contact_date - @date_logged)
+
+    date_logged_obj = Date.parse(@date_logged[0]["date_logged"])
+    contact_date_obj = Date.parse(contact_date)
+
+    diff = (date_logged_obj - contact_date_obj).to_i
+
+    total_days_sick = @days_sick[0]["days_sick"].to_i + diff
+
+    puts "----- here is total days sick #{total_days_sick}-------"
+
+
+    #total_days_sick = @days_sick + (contact_date - @date_logged)
     # testing
-    total_days_sick = 3
+    #total_days_sick = 3
 
     # If statements:
 
@@ -95,6 +113,11 @@ class PeopleController < ApplicationController
     end
 
     # Put risk result (low, med, high) into Risk db.
+
+    puts "---- here is risk -----"
+    puts risk
+
+    ActiveRecord::Base.connection.execute("delete from risks;")
 
     map = {"first_name" => first_name, "last_name" => last_name, \
     "risk" => risk} # or risk?
