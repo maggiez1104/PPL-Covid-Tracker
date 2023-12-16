@@ -1,21 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+</head>
+<body>
+
 <%= form_tag(@people) do %>
 
   <%= label_tag :first_name, "Your First Name:" %>
-  <%= text_field_tag :first_name %>
+  <%= text_field_tag :first_name, nil, required:true %>
 
   <%= label_tag :last_name, "Your Last Name:" %>
-  <%= text_field_tag :last_name %>
+  <%= text_field_tag :last_name, nil, required:true%>
 
   <%= label_tag :contact_name, "Contact First Name:" %>
-  <%= text_field_tag :contact_first_name %>
+  <%= text_field_tag :contact_first_name, nil, required:true %>
 
   <%= label_tag :contact_name, "Contact Last Name:" %>
-  <%= text_field_tag :contact_last_name %>
+  <%= text_field_tag :contact_last_name, nil, required:true%>
 
   <%= label_tag :contact_date, "Date of Contact:" %>
-  <%= date_field_tag :contact_date %>
+  <%= date_field_tag :contact_date, nil, required:true %>
 
-  <%= submit_tag "Search" %>
+  <p><p>
+
+  <%= submit_tag "Search", class: 'my-button' %>
 <% end %>
 
 <%= link_to 'Home', "/" %>
+
+</body>
+</html>

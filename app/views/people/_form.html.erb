@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+</head>
+<body>
+
 <%= form_with(model: person) do |form| %>
   <% if person.errors.any? %>
     <div style="color: red">
@@ -13,12 +20,12 @@
 
   <div>
     <%= form.label :first_name, style: "display: block" %>
-    <%= form.text_field :first_name %>
+    <%= form.text_field :first_name, class: 'input-field' %>
   </div>
 
   <div>
     <%= form.label :last_name, style: "display: block" %>
-    <%= form.text_field :last_name %>
+    <%= form.text_field :last_name, class: 'input-field' %>
   </div>
 
   <div>
@@ -28,15 +35,18 @@
 
   <div>
     <%= form.label :days_sick, style: "display: block" %>
-    <%= form.select :days_sick, (1..10).to_a.map { |num| [num, num] }, {}, { class: 'form-control' } %>
+    <%= form.select :days_sick, (1..10).to_a.map { |num| [num, num] }, {}, { class: 'input-field' } %>
   </div>
 
   <div>
     <%= form.label :date_logged, style: "display: block" %>
-    <%= form.date_field :date_logged %>
+    <%= form.date_field :date_logged, class: 'input-field' %>
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit class: 'submit-button'%>
   </div>
 <% end %>
+
+</body>
+</html>

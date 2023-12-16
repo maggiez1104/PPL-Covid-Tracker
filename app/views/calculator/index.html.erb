@@ -1,13 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
 <h1>Covid Risk Calculator</h1>
+</head>
+<body>
 
-<% if @search_result[0] %>
-<p>Here is your estimated risk of contracting Covid:</p>
 
-<%= @search_result[0].risk %>
+<% unless @source == 'articles' %>
+	<% if @search_result[0] %>
+		<p>Here is your estimated risk of contracting Covid:</p>
+
+		<%= @search_result[0].risk %>
+	<% end %>
 <% end %>
+
 <p>------</p>
 
-<%= link_to "Search Form", search_form_path %>
+<div class="button-container">
+	<%= link_to "Search Form", search_form_path, class: 'my-button' %>
 
-<%= link_to 'Home', "/" %>
+	<%= link_to 'Home', "/", class: 'my-button' %>
+</div>
 
+</body>
+</html>

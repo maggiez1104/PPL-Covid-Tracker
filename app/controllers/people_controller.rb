@@ -135,7 +135,7 @@ class PeopleController < ApplicationController
       if newRow.save
         puts "Success!"
         #format.html{redirect_to "/people#index"}
-        format.html{redirect_to "calculator#index"}
+        format.html{redirect_to "/calculator#index" }
       else
         format.html{redirect_to "/"} # Can create error page
       end

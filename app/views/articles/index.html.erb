@@ -1,5 +1,17 @@
-<h1>Bowdoin Covid Tracker</h1>
-<ul>
-  <li><%= link_to 'Create a New Person', 'people#index' %></li>
-  <li><%= link_to 'Calculate Your Exposure Risk', "calculator#index" %></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <h1>Bowdoin Covid Tracker</h1>
+</head>
+<body>
+
+  <!--img src="/app/assets/images/sick_logo.png" alt="sick logo" class="logo"-->
+
+  <div class="button-container">
+    <%= link_to 'Create a New Person', 'people#index', class: 'my-button' %> 
+    <%= link_to 'Calculate Your Exposure Risk', calculator_path(source: 'articles'), class: 'my-button' %>
+  </div>
+
+</body>
+</html>
