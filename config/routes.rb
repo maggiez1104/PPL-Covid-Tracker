@@ -9,7 +9,11 @@ Rails.application.routes.draw do
 
   get '/people/new', to: "people#new"
 
-  get '/calculator', to: 'calculator#index'
+  #get '/calculator', to: 'calculator#index'
+  # config/routes.rb
+  get '/calculator', to: 'calculator#index', as: 'calculator'
+  get '/search/calculator', to: 'calculator#index', as: 'search_calculator'
+
 
   post '/search_form', to: 'people#search'
   #post '/search_form', to: 'people#index'

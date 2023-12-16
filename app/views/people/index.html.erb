@@ -4,10 +4,6 @@
 
 <div id="people">
 
-  <!--<p>Here is your estimated risk of contracting Covid:</p>-->
-
-  <!--<%= @search_result[0].risk %>-->
-
   <% @people.each do |person| %>
     <%= render person %>
     <p>
@@ -17,3 +13,6 @@
 </div>
 
 <%= link_to "New person", new_person_path %>
+
+<%= link_to 'Home', "/" %>
+

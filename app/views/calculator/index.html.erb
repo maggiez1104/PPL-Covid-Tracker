@@ -1,10 +1,13 @@
 <h1>Covid Risk Calculator</h1>
 
+<% if @search_result[0] %>
 <p>Here is your estimated risk of contracting Covid:</p>
 
 <%= @search_result[0].risk %>
-
+<% end %>
 <p>------</p>
 
 <%= link_to "Search Form", search_form_path %>
+
+<%= link_to 'Home', "/" %>
 

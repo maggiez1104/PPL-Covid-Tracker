@@ -1,5 +1,5 @@
 class CalculatorController < ApplicationController
   def index
-    @search_result = Risk.all
+      @search_result = Risk.all
   end
 end
