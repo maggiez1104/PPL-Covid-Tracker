@@ -2,6 +2,9 @@
 <html>
 <head>
   <%= stylesheet_link_tag 'application', media: 'all' %>
+  <h1>
+    Search Form
+  </h1>
 </head>
 <body>
 
@@ -21,6 +24,17 @@
 
   <%= label_tag :contact_date, "Date of Contact:" %>
   <%= date_field_tag :contact_date, nil, required:true %>
+
+  <%= label_tag :contact_password, "Password:" %>
+  <%= text_field_tag :contact_password %>
+
+  <% if flash[:error].present? %>
+    <div class="error-message">
+      <%= flash[:error] %>
+    </div>
+  <% end %>
+
+
 
   <p><p>
 

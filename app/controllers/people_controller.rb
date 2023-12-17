@@ -70,9 +70,12 @@ class PeopleController < ApplicationController
     contact_first_name = params[:contact_first_name]
     contact_last_name = params[:contact_last_name]
     contact_date = params[:contact_date]
+    contact_password = params[:contact_password]
 
     # sql query into people db to get person info
     # get contacts's date_logged and days_sick
+
+    @password = ActiveRecord::Base.connection.execute("SELECT password FROM people WHERE first_name = '#{contact_first_name}'")
 
     @date_logged = ActiveRecord::Base.connection.execute("SELECT date_logged FROM people WHERE first_name = '#{contact_first_name}'")
 
@@ -82,6 +85,17 @@ class PeopleController < ApplicationController
     puts @days_sick[0]["days_sick"]
     # Do calculation: days_sick + (contact_date - date_logged)
       # edge case: what if contact_date - date_logged is in a different month
+
+
+    # new password stuff
+    if @password[0]["password"] != contact_password then
+      #redirect_to "/search_form"
+      #redirect_to "/search_form", notice: "Wrong password."
+      #flash.alert = "Wrong password."
+      flash[:error] = 'Incorrect password. Please try again.'
+      redirect_to "/search_form"
+      return
+    end
 
     #TODO: figure out how to subtract days from date object
 
@@ -151,7 +165,7 @@ class PeopleController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def person_params
-      params.require(:person).permit(:first_name, :last_name, :sick, :days_sick, :date_logged)
+      params.require(:person).permit(:first_name, :last_name, :sick, :days_sick, :date_logged, :password)
     end
 
     def search_form

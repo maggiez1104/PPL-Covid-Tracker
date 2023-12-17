@@ -1,10 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <h1>
+    Your Information
+    <h1>
+</head>
+<body>
+
 <p style="color: green"><%= notice %></p>
 
 <%= render @person %>
 
-<div>
-  <%= link_to "Edit this person", edit_person_path(@person) %> |
-  <%= link_to "Back to people", people_path %>
+<div class="button-container">
+  <%= link_to "Edit this person", edit_person_path(@person), class: 'my-button' %>
+  <%= button_to "Destroy this person", @person, method: :delete, class: 'my-button' %>
 
-  <%= button_to "Destroy this person", @person, method: :delete %>
+
 </div>
+
+<div>
+  <%= link_to "Home", "/", class: 'my-button' %>
+</div>
+
+</body>
+
+</html>
