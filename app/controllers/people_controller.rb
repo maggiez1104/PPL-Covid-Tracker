@@ -1,4 +1,5 @@
 require 'date'
+
 class PeopleController < ApplicationController
   before_action :set_person, only: %i[ show edit update destroy ]
 
@@ -7,9 +8,6 @@ class PeopleController < ApplicationController
     @people = Person.all
     @search_result = Risk.all
 
-    puts "---- here is index method search result ------"
-
-    puts @search_result
   end
 
   # GET /people/1 or /people/1.json
@@ -58,10 +56,14 @@ class PeopleController < ApplicationController
     @person.destroy!
 
     respond_to do |format|
-      format.html { redirect_to people_url, notice: "Person was successfully destroyed." }
+      format.html { redirect_to "/people/new", notice: "Person was successfully destroyed." }
       format.json { head :no_content }
     end
   end
+
+  # Main function that handles data from user search form
+  # Takes in data, performs sql queries and a formula to
+  # determine how likely the user is to contract covid
 
   def search
     puts "----- In Search ------"
@@ -80,50 +82,24 @@ class PeopleController < ApplicationController
     @date_logged = ActiveRecord::Base.connection.execute("SELECT date_logged FROM people WHERE first_name = '#{contact_first_name}'")
 
     @days_sick = ActiveRecord::Base.connection.execute("SELECT days_sick FROM people WHERE first_name = '#{contact_first_name}'")
-    puts "-------- here is date logged and sick --------"
-    puts @date_logged[0]["date_logged"]
-    puts @days_sick[0]["days_sick"]
-    # Do calculation: days_sick + (contact_date - date_logged)
-      # edge case: what if contact_date - date_logged is in a different month
 
-
-    # new password stuff
+    # Password checking to ensure user info is private
     if @password[0]["password"] != contact_password then
-      #redirect_to "/search_form"
-      #redirect_to "/search_form", notice: "Wrong password."
-      #flash.alert = "Wrong password."
       flash[:error] = 'Incorrect password. Please try again.'
       redirect_to "/search_form"
       return
     end
 
-    #TODO: figure out how to subtract days from date object
+    # Do calculation: days_sick + (contact_date - date_logged)
 
     date_logged_obj = Date.parse(@date_logged[0]["date_logged"])
     contact_date_obj = Date.parse(contact_date)
 
-    puts "----- here is date objs after parse --------"
-    puts date_logged_obj
-    puts contact_date_obj
-
-    #diff = (date_logged_obj - contact_date_obj).to_i
-
     diff = (contact_date_obj - date_logged_obj).to_i
-
-    puts "----- here is diff #{diff} ------"
-
-    puts "------ here is days sick as int #{@days_sick[0]["days_sick"].to_i} --------"
 
     total_days_sick = @days_sick[0]["days_sick"].to_i + diff
 
-    puts "----- here is total days sick #{total_days_sick}-------"
-
-
-    #total_days_sick = @days_sick + (contact_date - @date_logged)
-    # testing
-    #total_days_sick = 3
-
-    # If statements:
+    # If statements to find contagion risk level:
 
     if total_days_sick > 7 then
       risk = "Low"
@@ -135,9 +111,6 @@ class PeopleController < ApplicationController
 
     # Put risk result (low, med, high) into Risk db.
 
-    puts "---- here is risk -----"
-    puts risk
-
     ActiveRecord::Base.connection.execute("delete from risks;")
 
     map = {"first_name" => first_name, "last_name" => last_name, \
@@ -148,13 +121,11 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if newRow.save
         puts "Success!"
-        #format.html{redirect_to "/people#index"}
         format.html{redirect_to "/calculator#index" }
       else
         format.html{redirect_to "/"} # Can create error page
       end
     end
-    # display on home page: Your risk level is: (get Risk db risk var)
   end
 
   private
@@ -169,23 +140,5 @@ class PeopleController < ApplicationController
     end
 
     def search_form
-    end
-
-
-    def searchOld
-      contact_first_name = params[:contact_first_name]
-      contact_last_name = params[:contact_last_name]
-      contact_date = params[:contact_date]
-
-      # Query the database to find the person based on the name
-      @contact_person = Person.where(first_name: contact_first_name, last_name: contact_last_name)
-
-      if @contact_person
-
-      else
-        # Handle when the person is not found
-        flash[:alert] = "Person not found."
-        redirect_to root_path
-      end
     end
 end

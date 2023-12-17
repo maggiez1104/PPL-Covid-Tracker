@@ -8,14 +8,19 @@
 </head>
 <body>
 
+    <!-- View for showing your information 
+    if you just added yourself to the sick people database -->
+
 <p style="color: green"><%= notice %></p>
 
 <%= render @person %>
 
 
 <div class="button-container">
-  <%= link_to "Edit this person", edit_person_path(@person), class: 'my-button edit-button' %> |
-  <%= link_to "Destroy this person", @person, method: :delete, class: 'my-button destroy-button' %> |
+  <%= link_to "Edit this person", edit_person_path(@person), class: 'my-button edit-button' %>
+  <p></p>
+  <%= button_to "Destroy this person", @person, method: :delete, class: 'my-button destroy-button' %>
+  <p></p>
   <%= link_to "Home", "/", class: 'my-button home-button' %>
 </div>
 
