@@ -101,11 +101,11 @@ class PeopleController < ApplicationController
 
     # If statements to find contagion risk level:
 
-    if total_days_sick > 7 then
+    if (total_days_sick > 14) or (total_days_sick < 0) then
       risk = "Low"
-    elsif (total_days_sick <= 7) and (total_days_sick >= 3) then
+    elsif (total_days_sick <= 14) and (total_days_sick >= 5) then
       risk = "Medium"
-    elsif total_days_sick < 3 then
+    elsif total_days_sick < 5 then
       risk = "High"
     end
 
