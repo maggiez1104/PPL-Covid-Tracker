@@ -33,6 +33,8 @@
   .button-container {
 	text-align: center;
 	margin-top: 20px;
+	align-items: center;
+	gap: 10px;
   }
 
   .my-button {
@@ -95,4 +97,14 @@ label {
 
   .error-message {
 	color: red;
+  }
+
+  .edit-button, .destroy-button {
+	margin-right: 10px; /* Adjust spacing between buttons */
+  }
+  
+  .home-button-container {
+	position: absolute;
+	top: 10px; /* Adjust top position */
+	right: 10px; /* Adjust right position */
   }

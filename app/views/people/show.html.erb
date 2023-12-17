@@ -4,7 +4,7 @@
   <%= stylesheet_link_tag 'application', media: 'all' %>
   <h1>
     Your Information
-    <h1>
+    </h1>
 </head>
 <body>
 
@@ -12,16 +12,14 @@
 
 <%= render @person %>
 
+
 <div class="button-container">
-  <%= link_to "Edit this person", edit_person_path(@person), class: 'my-button' %>
-  <%= button_to "Destroy this person", @person, method: :delete, class: 'my-button' %>
-
-
+  <%= link_to "Edit this person", edit_person_path(@person), class: 'my-button edit-button' %> |
+  <%= link_to "Destroy this person", @person, method: :delete, class: 'my-button destroy-button' %> |
+  <%= link_to "Home", "/", class: 'my-button home-button' %>
 </div>
 
-<div>
-  <%= link_to "Home", "/", class: 'my-button' %>
-</div>
+<p></p>
 
 </body>
 
